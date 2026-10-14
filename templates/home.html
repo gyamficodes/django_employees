@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f5f7fb">
-    <title>People | Northstar</title>
+    <title>People | Northstar </title>
     <style>
         :root {
             color-scheme: light;
@@ -251,6 +251,21 @@
             font-size: 12px;
         }
 
+        .person-id {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 8px;
+            padding: 5px 8px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--blue-soft);
+            color: var(--blue);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
         .detail-label {
             display: block;
             margin-bottom: 5px;
@@ -416,11 +431,13 @@
             <div class="employee-list">
                 {% for emp in employees %}
                     <article class="employee">
+                    
                         <div class="person">
                             <span class="avatar" aria-hidden="true">{{ emp.first_name|slice:":1" }}{{ emp.last_name|slice:":1" }}</span>
                             <div style="min-width: 0;">
                                 <div class="person-name">{{ emp.full_name }}</div>
                                 <div class="person-email">{{ emp.email }}</div>
+                                <div class="person-id">ID #{{ emp.id }}</div>
                             </div>
                         </div>
                         <div class="detail">
@@ -449,5 +466,7 @@
     </main>
 
     <footer>Made for the people behind the work.</footer>
+
+
 </body>
 </html>
