@@ -115,9 +115,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/'   #this is static file prefis
 STATIC_ROOT = BASE_DIR / 'static'  #this  is the path where the static files will be collected when you run the collectstatic command. It is used in production to serve static files from a single location.
-STATICFILES_DIRS = ['employee_main/static'] #this  will load only on production. It is used in development to serve static files from multiple locations.
+STATICFILES_DIRS = ['employee_main/static'] #this we are tellin ng django to look thrugh the folder 
 
 
 
