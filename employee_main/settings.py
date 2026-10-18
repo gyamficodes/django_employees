@@ -121,6 +121,7 @@ STATICFILES_DIRS = ['employee_main/static'] #this we are tellin ng django to loo
 
 
 
+
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
