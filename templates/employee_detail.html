@@ -1,1 +1,757 @@
-<h2>this is employee {{ employee_id }}</h2>
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f6fb">
+    <title>{{ employee.full_name }} | Northstar</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* ---------- reset & base ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            color-scheme: light;
+            --ink: #17243b;
+            --muted: #718096;
+            --line: #e8edf4;
+            --blue: #4567e8;
+            --blue-soft: #edf1ff;
+            --green: #18866b;
+            --green-soft: #e8f7f1;
+            --surface: #ffffff;
+            --canvas: #f5f7fb;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--canvas);
+            color: var(--ink);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1.25rem;
+        }
+
+        a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- topbar ---------- */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 0 1rem;
+            max-width: 1120px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .brand-mark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background: var(--blue-soft);
+            border-radius: 10px;
+            color: var(--blue);
+            padding: 0.3rem;
+        }
+
+        .brand-mark svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted);
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--blue-soft);
+            border-color: var(--blue);
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        /* ---------- main profile ---------- */
+        .employee-profile {
+            max-width: 1120px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1rem 0 2.5rem;
+            flex: 1;
+        }
+
+        /* breadcrumb */
+        .profile-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 1.75rem;
+        }
+
+        .profile-breadcrumb a {
+            color: var(--muted);
+        }
+
+        .profile-breadcrumb a:hover {
+            color: var(--blue);
+        }
+
+        .profile-breadcrumb span[aria-hidden] {
+            color: var(--line);
+        }
+
+        /* ---------- hero section ---------- */
+        .profile-hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            background: var(--surface);
+            padding: 2rem 2rem;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            margin-bottom: 1.25rem;
+        }
+
+        .profile-identity {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .profile-avatar {
+            width: 4.5rem;
+            height: 4.5rem;
+            background: var(--blue-soft);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--blue);
+            letter-spacing: -0.02em;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        .profile-heading h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+        }
+
+        .profile-eyebrow {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            font-weight: 500;
+            margin-bottom: 0.15rem;
+        }
+
+        .profile-eyebrow span {
+            color: var(--line);
+            margin: 0 0.3rem;
+        }
+
+        .profile-role {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .profile-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.25rem 0.9rem 0.25rem 0.7rem;
+            border-radius: 999px;
+            background: var(--green-soft);
+            color: var(--green);
+            margin-top: 0.3rem;
+        }
+
+        .profile-status.inactive {
+            background: #f1f3f7;
+            color: var(--muted);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block;
+        }
+
+        .profile-contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.4rem;
+            background: var(--blue);
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-radius: 12px;
+            border: none;
+            transition: background 0.2s, transform 0.1s;
+            white-space: nowrap;
+        }
+
+        .profile-contact-button:hover {
+            background: #3a56c9;
+            text-decoration: none;
+        }
+
+        .profile-contact-button svg {
+            width: 1.15rem;
+            height: 1.15rem;
+        }
+
+        /* ---------- highlights (3 cards) ---------- */
+        .profile-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 1.1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .highlight-icon {
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 0.45rem;
+        }
+
+        .highlight-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .department-icon {
+            background: var(--blue-soft);
+            color: var(--blue);
+        }
+
+        .date-icon {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .manager-icon {
+            background: #fef5e7;
+            color: #b7731e;
+        }
+
+        .highlight-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.05rem;
+            min-width: 0;
+        }
+
+        .highlight-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .highlight-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ---------- content two-column ---------- */
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 0.9fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 1.6rem 1.75rem;
+        }
+
+        .profile-panel-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-section-eyebrow {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 500;
+            color: var(--muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .profile-panel-heading h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+        }
+
+        .panel-mark {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        .panel-mark svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .compensation-mark {
+            color: var(--green);
+            opacity: 0.8;
+        }
+
+        /* facts list */
+        .profile-facts {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .profile-fact {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.5rem 1rem;
+            padding-bottom: 0.9rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .profile-fact:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .profile-fact dt {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--muted);
+            width: 110px;
+            flex-shrink: 0;
+        }
+
+        .profile-fact dd {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--ink);
+            word-break: break-word;
+        }
+
+        .profile-fact dd a {
+            color: var(--blue);
+            font-weight: 500;
+        }
+
+        .profile-fact dd a:hover {
+            text-decoration: underline;
+        }
+
+        /* compensation side */
+        .compensation-value {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .compensation-value .highlight-label {
+            font-size: 0.8rem;
+        }
+
+        .compensation-value strong {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+        }
+
+        .employment-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: var(--canvas);
+            border-radius: 14px;
+            padding: 0.9rem 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .employment-note-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            flex-shrink: 0;
+            color: var(--green);
+        }
+
+        .employment-note-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .employment-note span {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .employment-note strong {
+            display: block;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.15rem;
+        }
+
+        /* ---------- footer inside main ---------- */
+        .profile-footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .back-to-directory {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .back-to-directory svg {
+            width: 1.15rem;
+            height: 1.15rem;
+        }
+
+        .back-to-directory:hover {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        /* ---------- global footer ---------- */
+        footer {
+            max-width: 1120px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 0 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+        }
+
+        /* ---------- responsive ---------- */
+        @media (max-width: 860px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-highlights {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .profile-hero {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+            }
+
+            .profile-identity {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .profile-heading h1 {
+                font-size: 1.5rem;
+            }
+
+            .profile-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-fact {
+                flex-direction: column;
+                gap: 0.15rem;
+            }
+
+            .profile-fact dt {
+                width: auto;
+            }
+
+            .profile-contact-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .profile-panel {
+                padding: 1.25rem;
+            }
+
+            .profile-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .topbar {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .brand {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="{% url 'home' %}" aria-label="Northstar home">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3.5 14.5 9.5 20.5 12 14.5 14.5 12 20.5 9.5 14.5 3.5 12 9.5 9.5 12 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            Northstar
+        </a>
+        <a class="nav-link" href="/admin/">Admin</a>
+    </header>
+
+    <main class="employee-profile">
+        <nav class="profile-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'home' %}">People</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ employee.full_name }}</span>
+        </nav>
+
+        <section class="profile-hero" aria-labelledby="employee-name">
+            <div class="profile-identity">
+                <div class="profile-avatar" aria-hidden="true">{{ employee.first_name|slice:":1" }}{{ employee.last_name|slice:":1" }}</div>
+                <div class="profile-heading">
+                    <p class="profile-eyebrow">Employee profile <span>·</span> #{{ employee.id }}</p>
+                    <h1 id="employee-name">{{ employee.full_name }}</h1>
+                    <p class="profile-role">{{ employee.designation }}</p>
+                    <span class="profile-status{% if not employee.is_active %} inactive{% endif %}">
+                        <span class="status-dot" aria-hidden="true"></span>
+                        {% if employee.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </div>
+            </div>
+            <a class="profile-contact-button" href="mailto:{{ employee.email }}">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 6.5h16v11H4v-11Zm0 .5 8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Contact employee
+            </a>
+        </section>
+
+        <section class="profile-highlights" aria-label="Employee highlights">
+            <article class="highlight-card">
+                <span class="highlight-icon department-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 20V7.5L12 4l8 3.5V20M2.5 20h19M8 9h1m6 0h1M8 12.5h1m6 0h1M10 20v-4.5h4V20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="highlight-copy">
+                    <span class="highlight-label">Department</span>
+                    <span class="highlight-value">{% if employee.department %}{{ employee.department.name }}{% else %}Not assigned{% endif %}</span>
+                </span>
+            </article>
+            <article class="highlight-card">
+                <span class="highlight-icon date-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M7 3.5v3m10-3v3M4 9h16M5 5.5h14a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="highlight-copy">
+                    <span class="highlight-label">Joined</span>
+                    <span class="highlight-value">{{ employee.joining_date|date:"M j, Y" }}</span>
+                </span>
+            </article>
+            <article class="highlight-card">
+                <span class="highlight-icon manager-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="9" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20m1-13a3.5 3.5 0 0 1 0 6.5M18 15a4 4 0 0 1 3.5 4v1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="highlight-copy">
+                    <span class="highlight-label">Reports to</span>
+                    <span class="highlight-value">{% if employee.manager %}{{ employee.manager.full_name }}{% else %}No manager assigned{% endif %}</span>
+                </span>
+            </article>
+        </section>
+
+        <div class="profile-content">
+            <section class="profile-panel" aria-labelledby="about-title">
+                <div class="profile-panel-heading">
+                    <div>
+                        <p class="profile-section-eyebrow">The essentials</p>
+                        <h2 id="about-title">About {{ employee.first_name }}</h2>
+                    </div>
+                    <span class="panel-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/>
+                            <path d="M12 11v5m0-8h.01" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                </div>
+                <dl class="profile-facts">
+                    <div class="profile-fact">
+                        <dt>Email address</dt>
+                        <dd><a href="mailto:{{ employee.email }}">{{ employee.email }}</a></dd>
+                    </div>
+                    <div class="profile-fact">
+                        <dt>Job title</dt>
+                        <dd>{{ employee.designation }}</dd>
+                    </div>
+                    <div class="profile-fact">
+                        <dt>Department</dt>
+                        <dd>{% if employee.department %}{{ employee.department.name }}{% else %}Not assigned{% endif %}</dd>
+                    </div>
+                    <div class="profile-fact">
+                        <dt>Manager</dt>
+                        <dd>
+                            {% if employee.manager %}
+                                <a href="{% url 'employee_detail' employee.manager_id %}">{{ employee.manager.full_name }}</a>
+                            {% else %}
+                                Not assigned
+                            {% endif %}
+                        </dd>
+                    </div>
+                </dl>
+            </section>
+
+            <aside class="profile-panel compensation-panel" aria-labelledby="compensation-title">
+                <div class="profile-panel-heading">
+                    <div>
+                        <p class="profile-section-eyebrow">People operations</p>
+                        <h2 id="compensation-title">Employment</h2>
+                    </div>
+                    <span class="panel-mark compensation-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M4 19.5V4.5m0 15h16M7.5 15l4-4 3 2 5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                </div>
+                <div class="compensation-value">
+                    <span class="highlight-label">Salary</span>
+                    <strong>{{ employee.salary|floatformat:2 }}</strong>
+                </div>
+                <div class="employment-note">
+                    <span class="employment-note-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3.5 14.6 9l5.9.8-4.3 4.2 1 6-5.2-2.8-5.2 2.8 1-6-4.3-4.2L9.4 9 12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span>
+                        <strong>{% if employee.is_active %}Currently on the team{% else %}Profile is inactive{% endif %}</strong>
+                        <span>Joined {{ employee.joining_date|date:"F j, Y" }}</span>
+                    </span>
+                </div>
+            </aside>
+        </div>
+
+        <div class="profile-footer">
+            <a class="back-to-directory" href="{% url 'home' %}">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M19 12H5m0 0 6 6m-6-6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Back to people directory
+            </a>
+            <span>Employee ID #{{ employee.id }}</span>
+        </div>
+    </main>
+
+    <footer>Made for the people behind the work.</footer>
+</body>
+</html>

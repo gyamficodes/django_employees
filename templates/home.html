@@ -72,7 +72,7 @@
                         </div>
                         <span class="status{% if not emp.is_active %} inactive{% endif %}">{% if emp.is_active %}Active{% else %}Inactive{% endif %}</span>
                         <div class="employee-actions" aria-label="Actions for {{ emp.full_name }}">
-                            <a class="employee-action employee-action-view" href="#" aria-label="View {{ emp.full_name }}">
+                            <a class="employee-action employee-action-view" href="{% url 'employee_detail' emp.id %}" aria-label="View {{ emp.full_name }}">
                                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width: 20px; height: 20px;">
                                     <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
                                     <circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.7"/>
