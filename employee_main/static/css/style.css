@@ -1,4 +1,4 @@
-  
+
         :root {
             color-scheme: light;
             --ink: #17243b;
@@ -11,6 +11,7 @@
             --surface: #ffffff;
             --canvas: #f5f7fb;
         }
+
 
         * {
             box-sizing: border-box;
@@ -944,3 +945,7 @@
                 gap: 12px;
             }
         }
+
+
+
+      
