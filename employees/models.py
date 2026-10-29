@@ -15,6 +15,7 @@ class Employee(models.Model):
      last_name = models.CharField(max_length=100)
      email = models.EmailField(unique=True)
      designation = models.CharField(max_length=100)
+     image = models.ImageField(upload_to='emp_images', default='default.png')
      salary = models.DecimalField(max_digits=10, decimal_places=2)
      joining_date = models.DateField()
      is_active = models.BooleanField(default=True)
