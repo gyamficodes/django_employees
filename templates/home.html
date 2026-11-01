@@ -33,7 +33,7 @@
                     
                         <div class="person">
                             <div class="person-id">#{{ emp.id }}</div>
-                            <span class="avatar" aria-hidden="true">{{ emp.first_name|slice:":1" }}{{ emp.last_name|slice:":1" }}</span>
+                             <img style=" width:20px; height:20px; border-radius: 50%; object-fit: cover;" src="{{ emp.image.url }}" alt="{{ employee.full_name }} Image">
                             <div class="person-copy">
                                 <div class="person-name">{{ emp.full_name }}</div>
                                 <div class="person-email">{{ emp.email }}</div>

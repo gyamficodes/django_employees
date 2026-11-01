@@ -129,6 +129,5 @@ MAILERS = {
 
 
 # Media files (user-uploaded files) configuration in Django
-
 MEDIA_URL = '/media/'  # URL prefix used to access media files.
 MEDIA_ROOT = BASE_DIR / 'media'  # Folder where uploaded media files are stored.

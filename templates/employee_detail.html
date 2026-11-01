@@ -14,7 +14,9 @@
 
         <section class="profile-hero" aria-labelledby="employee-name">
             <div class="profile-identity">
-                <div class="profile-avatar" aria-hidden="true">{{ employee.first_name|slice:":1" }}{{ employee.last_name|slice:":1" }}</div>
+                <div class="profile-avatar" aria-hidden="true">
+                    <img style=" width:80px; height:80px; border-radius: 50%; object-fit: cover;" src="{{ employee.image.url }}" alt="{{ employee.full_name }} Image">
+                </div>
                 <div class="profile-heading">
                     <p class="profile-eyebrow">Employee profile <span>·</span> #{{ employee.id }}</p>
                     <h1 id="employee-name">{{ employee.full_name }}</h1>
