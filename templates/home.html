@@ -3,6 +3,7 @@
 {% block title %}People | Northstar{% endblock %}
 
 {% block content %}
+
         <section class="intro" aria-labelledby="page-title">
             <p class="eyebrow">Your people, all in one place</p>
             <h1 id="page-title">Meet the team.</h1>
@@ -14,11 +15,23 @@
                 <span class="summary-label">People in your directory</span>
                 <span class="summary-number">{{ employees|length }}</span>
             </div>
-            <span class="summary-icon" aria-hidden="true">
+
+            <div style="display: flex; align-items: center; flex-direction:column; justify-content: center; gap:1em;">
+               
+    <span class="summary-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
                     <path d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20m6-9a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm6-7.5a4 4 0 0 1 0 7.75M20 20v-1.5a3.5 3.5 0 0 0-2.5-3.35" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
                 </svg>
+            
             </span>
+
+
+             <div class="add" style="margin-left: 10px; display: flex; align-items: center; ">
+            <a style="     text-transform: capitalize; font-weight: 700;" href="{% url 'add_employee' %}">Add employee+</a>
+            </div>
+            </div>
+        
+          
         </section>
 
         <section aria-labelledby="directory-title">
