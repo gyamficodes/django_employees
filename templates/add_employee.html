@@ -1,6 +1,9 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 
-{% block title %}Add Employee | Northstar{% endblock %}
+
+{% block title %}Add Employee | Northstar{% endblock%} 
+
+
 
 {% block content %}
 
@@ -11,8 +14,15 @@
 
 </form> -->
 
-
-<form action="" class="form-container">
+<form
+  action="{% url 'add_employee' %}"
+  method="POST"
+  class="form-container"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %}
    {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Add Employee</button>
 </form>
+
 {% endblock %}

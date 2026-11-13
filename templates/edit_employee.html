@@ -1,0 +1,33 @@
+
+{% extends "base.html" %} 
+
+
+{% block title %}Edit Employee | Northstar{% endblock%} 
+
+
+{% block content %}
+
+<form
+  action="{% url 'edit_employee' employee.id %}"
+  method="POST"
+  class="form-container"
+  enctype="multipart/form-data">
+    {% csrf_token %}
+     {{ form.as_p }}
+   <button type="submit" class="btn btn-primary">Update Employee</button>
+</form>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+

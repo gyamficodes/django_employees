@@ -69,7 +69,7 @@
                                 </svg>
                                 <span>View</span>
                             </a>
-                            <a class="employee-action employee-action-update" href="#" aria-label="Update {{ emp.full_name }}">
+                            <a class="employee-action employee-action-update" href="{% url 'edit_employee' emp.id %}" aria-label="Update {{ emp.full_name }}">
                                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width: 20px; height: 20px;">
                                     <path d="m14 5 5 5M4 20l4.2-.8L19 8.4a2.1 2.1 0 0 0-3-3L5.2 16.2 4 20Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
