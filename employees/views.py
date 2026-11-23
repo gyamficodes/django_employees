@@ -34,7 +34,7 @@ def add_employee(request):
     }
     return render(request, "add_employee.html", context)
 
-
+# add employee
 def edit_employee(request, employee_id):
       employee = get_object_or_404(Employee, id=employee_id)
       if request.method == 'POST':
@@ -50,3 +50,14 @@ def edit_employee(request, employee_id):
         'employee': employee
     }
       return render(request, "edit_employee.html", context)
+
+
+def delete_employee(request, employee_id):
+    employee = get_object_or_404(Employee, id=employee_id)
+    if request.method == 'POST':
+        employee.delete()
+        return redirect('home')  # Redirect to the employee list view after deletion
+    context = {
+        'employee': employee
+    }
+    return render(request, 'delete_employee.html', context)

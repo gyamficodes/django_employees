@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Employee | Northstar{% endblock %}
+
+{% block content %}
+    <nav class="profile-breadcrumb" aria-label="Breadcrumb">
+        <a href="{% url 'home' %}">People</a>
+        <span aria-hidden="true">/</span>
+        <a href="{% url 'employee_detail' employee.id %}">{{ employee.full_name }}</a>
+        <span aria-hidden="true">/</span>
+        <span>Delete</span>
+    </nav>
+
+    <section class="form-container" aria-labelledby="delete-title">
+        <h1 id="delete-title">Delete employee?</h1>
+        <p>Are you sure you want to delete {{ employee.full_name }}? This action cannot be undone.</p>
+
+        <form action="{% url 'delete_employee' employee.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Delete employee</button>
+            <a href="{% url 'employee_detail' employee.id %}">Cancel</a>
+        </form>
+    </section>
+{% endblock %}
