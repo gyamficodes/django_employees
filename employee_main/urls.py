@@ -19,12 +19,13 @@ from django.conf.urls.static import static # use static to serve media files dur
 from django.contrib import admin
 from django.urls import path, include
 from . import views 
-
+from accounts import views as AccountsViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('employee/', include('employees.urls')),  # Include the URLs from the employees app
+    path('register/', AccountsViews.register, name='register'),  # Add the register URL pattern
 ]
 
 
